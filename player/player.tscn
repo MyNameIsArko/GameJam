@@ -1,56 +1,78 @@
-[gd_scene load_steps=5 format=3 uid="uid://d2vk1qmrvldfa"]
+[gd_scene load_steps=8 format=3 uid="uid://dsi2gaybsv2ph"]
 
+[ext_resource type="Script" path="res://player/player.gd" id="1_beq1i"]
 [ext_resource type="Texture2D" uid="uid://06133qxs2wld" path="res://icon.svg" id="1_dr5h2"]
-
-[sub_resource type="GDScript" id="GDScript_fahyk"]
-script/source = "extends CharacterBody2D
-
-
-const SPEED = 300.0
-const JUMP_VELOCITY = -400.0
-
-# Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting(\"physics/2d/default_gravity\")
-
-
-func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
-
-	# Handle Jump.
-	if Input.is_action_just_pressed(\"ui_accept\") and is_on_floor():
-		velocity.y = JUMP_VELOCITY
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var direction = Input.get_axis(\"ui_left\", \"ui_right\")
-	if direction:
-		velocity.x = direction * SPEED
-
-	move_and_slide()
-"
+[ext_resource type="Script" path="res://player/WeaponManager.gd" id="3_2co3w"]
+[ext_resource type="PackedScene" uid="uid://b7i7bp4nv1il5" path="res://bullet/player_bullet.tscn" id="4_3rcwk"]
+[ext_resource type="Script" path="res://player/AnimationsManager.gd" id="5_u1glr"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_14twl"]
 animations = [{
 "frames": [{
 "duration": 1.0,
 "texture": ExtResource("1_dr5h2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_dr5h2")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dr5h2")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_dr5h2")
+}],
+"loop": false,
+"name": &"dmg",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dr5h2")
 }],
 "loop": true,
-"name": &"default",
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dr5h2")
+}],
+"loop": true,
+"name": &"walk",
 "speed": 5.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_bdymi"]
-radius = 64.0
-height = 128.0
+radius = 32.0
+height = 80.0
 
-[node name="Player" type="CharacterBody2D"]
-script = SubResource("GDScript_fahyk")
+[node name="Player" type="CharacterBody2D" groups=["Player"]]
+collision_mask = 4
+script = ExtResource("1_beq1i")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_14twl")
+animation = &"dmg"
+autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_bdymi")
+
+[node name="WeaponManager" type="Node2D" parent="."]
+script = ExtResource("3_2co3w")
+bullet = ExtResource("4_3rcwk")
+
+[node name="WaitTime" type="Timer" parent="WeaponManager"]
+wait_time = 0.4
+
+[node name="AnimationsManager" type="Node2D" parent="."]
+script = ExtResource("5_u1glr")
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="AnimationsManager" method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="WeaponManager/WaitTime" to="WeaponManager" method="_on_wait_time_timeout"]

@@ -1,27 +1,33 @@
-[gd_scene load_steps=5 format=3 uid="uid://dn630ydaeahlo"]
+[gd_scene load_steps=6 format=3 uid="uid://dn630ydaeahlo"]
 
-[ext_resource type="PackedScene" uid="uid://d2vk1qmrvldfa" path="res://player/player.tscn" id="1_byq3x"]
-[ext_resource type="Script" path="res://player/player.gd" id="2_6f0rd"]
-[ext_resource type="Texture2D" uid="uid://06133qxs2wld" path="res://icon.svg" id="3_cpnn2"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_iugpd"]
-size = Vector2(432, 112)
+[ext_resource type="PackedScene" uid="uid://dsi2gaybsv2ph" path="res://player/player.tscn" id="1_byq3x"]
+[ext_resource type="PackedScene" uid="uid://csitfdtx80ojw" path="res://enemy/enemy.tscn" id="2_h0rdt"]
+[ext_resource type="PackedScene" uid="uid://cqxwwixnur3i" path="res://enemy spawner/levels/test level/first_wave.tscn" id="2_qmfuh"]
+[ext_resource type="PackedScene" uid="uid://btxfgp4rtlamm" path="res://enemy spawner/enemy_spawner.tscn" id="2_trx5k"]
+[ext_resource type="Script" path="res://enemy spawner/wave_manager.gd" id="4_7lgfs"]
 
 [node name="TestLevel" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_byq3x")]
 position = Vector2(560, 264)
-script = ExtResource("2_6f0rd")
 
-[node name="Floor" type="StaticBody2D" parent="."]
-position = Vector2(552, 608)
-metadata/_edit_group_ = true
+[node name="EnemySpawner" parent="." instance=ExtResource("2_trx5k")]
+enemies = Array[Resource]([ExtResource("2_qmfuh")])
 
-[node name="Sprite2D" type="Sprite2D" parent="Floor"]
-modulate = Color(0, 0, 0, 1)
-position = Vector2(1.90735e-06, 0)
-scale = Vector2(3.4375, 1)
-texture = ExtResource("3_cpnn2")
+[node name="WaveManager" type="Node2D" parent="EnemySpawner"]
+script = ExtResource("4_7lgfs")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Floor"]
-shape = SubResource("RectangleShape2D_iugpd")
+[node name="Enemy" parent="EnemySpawner/WaveManager" instance=ExtResource("2_h0rdt")]
+position = Vector2(952, 520)
+
+[node name="Enemy2" parent="EnemySpawner/WaveManager" instance=ExtResource("2_h0rdt")]
+position = Vector2(592, 520)
+
+[node name="Enemy3" parent="EnemySpawner/WaveManager" instance=ExtResource("2_h0rdt")]
+position = Vector2(168, 512)
+
+[node name="Enemy4" parent="EnemySpawner/WaveManager" instance=ExtResource("2_h0rdt")]
+position = Vector2(152, 88)
+
+[node name="Enemy5" parent="EnemySpawner/WaveManager" instance=ExtResource("2_h0rdt")]
+position = Vector2(952, 96)

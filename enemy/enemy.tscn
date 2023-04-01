@@ -1,0 +1,83 @@
+[gd_scene load_steps=8 format=3 uid="uid://csitfdtx80ojw"]
+
+[ext_resource type="Script" path="res://enemy/enemy.gd" id="1_2mguw"]
+[ext_resource type="Texture2D" uid="uid://06133qxs2wld" path="res://icon.svg" id="1_yv5oq"]
+[ext_resource type="Script" path="res://enemy/AnimationsManager.gd" id="3_jsg0l"]
+[ext_resource type="Script" path="res://enemy/WeaponManager.gd" id="4_trc1q"]
+[ext_resource type="PackedScene" uid="uid://cvvx283bdon4r" path="res://bullet/enemy_bullet.tscn" id="5_mfrlf"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nnn7p"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yv5oq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_yv5oq")
+}],
+"loop": false,
+"name": &"death",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yv5oq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_yv5oq")
+}],
+"loop": false,
+"name": &"dmg",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yv5oq")
+}, {
+"duration": 1.0,
+"texture": ExtResource("1_yv5oq")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_yv5oq")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a2qlg"]
+radius = 32.0
+height = 64.0
+
+[node name="Enemy" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_2mguw")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(0.784314, 0.12549, 0.0470588, 1)
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_nnn7p")
+animation = &"idle"
+autoplay = "idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_a2qlg")
+
+[node name="AnimationsManager" type="Node2D" parent="."]
+script = ExtResource("3_jsg0l")
+
+[node name="WeaponManager" type="Node2D" parent="."]
+script = ExtResource("4_trc1q")
+bullet = ExtResource("5_mfrlf")
+
+[node name="WaitTime" type="Timer" parent="WeaponManager"]
+wait_time = 2.0
+
+[connection signal="animation_finished" from="AnimatedSprite2D" to="AnimationsManager" method="_on_animated_sprite_2d_animation_finished"]
+[connection signal="timeout" from="WeaponManager/WaitTime" to="WeaponManager" method="_on_wait_time_timeout"]
