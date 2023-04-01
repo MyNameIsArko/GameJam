@@ -51,17 +51,18 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a2qlg"]
-radius = 32.0
-height = 64.0
+radius = 24.0
+height = 48.0
 
 [node name="Enemy" type="CharacterBody2D"]
 collision_layer = 2
 collision_mask = 7
 script = ExtResource("1_2mguw")
+speed = 100.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 modulate = Color(0.784314, 0.12549, 0.0470588, 1)
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.375, 0.375)
 sprite_frames = SubResource("SpriteFrames_nnn7p")
 animation = &"idle"
 autoplay = "idle"
@@ -78,6 +79,16 @@ bullet = ExtResource("5_mfrlf")
 
 [node name="WaitTime" type="Timer" parent="WeaponManager"]
 wait_time = 2.0
+
+[node name="Audios" type="Node2D" parent="."]
+
+[node name="Shoot" type="AudioStreamPlayer2D" parent="Audios"]
+
+[node name="Walk" type="AudioStreamPlayer2D" parent="Audios"]
+
+[node name="Hit" type="AudioStreamPlayer2D" parent="Audios"]
+
+[node name="Death" type="AudioStreamPlayer2D" parent="Audios"]
 
 [connection signal="animation_finished" from="AnimatedSprite2D" to="AnimationsManager" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="WeaponManager/WaitTime" to="WeaponManager" method="_on_wait_time_timeout"]

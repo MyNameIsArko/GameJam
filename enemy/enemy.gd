@@ -17,10 +17,16 @@ func got_hit(direction_from: Vector2):
 	took_damage = true
 	enemy_health -= 1
 	if enemy_health == 0:
+		velocity = Vector2.ZERO
 		is_dead = true
+	else:
+		velocity = direction_from * speed
 
 func _process(delta):
-	if is_dead or took_damage or player == null or is_preparing:
+	if took_damage:
+		move_and_slide()
+		return
+	if is_dead or player == null or is_preparing:
 		return
 	direction = player.position - position
 	direction = direction.normalized()

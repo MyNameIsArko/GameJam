@@ -10,5 +10,6 @@ func _process(delta):
 
 
 func _on_body_entered(body):
-	body.got_hit(direction)
+	if body.has_method('got_hit'):
+		body.got_hit(direction)
 	queue_free()

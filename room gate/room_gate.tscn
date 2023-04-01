@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://btt3rr0xxw8jx"]
+
+[ext_resource type="Script" path="res://room gate/room_gate.gd" id="1_8r0fe"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_osj8k"]
+size = Vector2(20, 128)
+
+[node name="RoomGate" type="Area2D"]
+position = Vector2(1152, 320)
+script = ExtResource("1_8r0fe")
+metadata/_edit_group_ = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_osj8k")
+
+[node name="Removing" type="AudioStreamPlayer2D" parent="."]
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

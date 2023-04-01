@@ -9,16 +9,27 @@ func _process(delta):
 	if player.is_dead:
 		current_animation = "death"
 		sprite.play("death")
+		$"../Audios/Death".play()
 	elif player.took_damage:
 		current_animation = "dmg"
 		sprite.play("dmg")
+		$"../Audios/Hit".play()
 	if current_animation != "":
 		return
 	if player.player_direction:
-		current_animation = "walk"
-		sprite.play("walk")
+		match player.bullet_direction:
+			Vector2.LEFT:
+				sprite.flip_h = true
+				sprite.play("walk_side")
+			Vector2.RIGHT:
+				sprite.flip_h = false
+				sprite.play("walk_side")
+			Vector2.UP:
+				sprite.play("walk_up")
+			Vector2.DOWN:
+				sprite.play("walk_down")
+		$"../Audios/Walk".play()
 	else:
-		current_animation = "idle"
 		sprite.play("idle")
 
 
