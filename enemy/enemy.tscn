@@ -1,19 +1,60 @@
-[gd_scene load_steps=8 format=3 uid="uid://csitfdtx80ojw"]
+[gd_scene load_steps=19 format=3 uid="uid://csitfdtx80ojw"]
 
 [ext_resource type="Script" path="res://enemy/enemy.gd" id="1_2mguw"]
-[ext_resource type="Texture2D" uid="uid://06133qxs2wld" path="res://icon.svg" id="1_yv5oq"]
+[ext_resource type="Texture2D" uid="uid://ct8dtj7rydakk" path="res://enemy/walk_side.png" id="3_hygq6"]
 [ext_resource type="Script" path="res://enemy/AnimationsManager.gd" id="3_jsg0l"]
 [ext_resource type="Script" path="res://enemy/WeaponManager.gd" id="4_trc1q"]
 [ext_resource type="PackedScene" uid="uid://cvvx283bdon4r" path="res://bullet/enemy_bullet.tscn" id="5_mfrlf"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aj3a4"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(0, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jl4rj"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(0, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ior5g"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(0, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bp4ui"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(0, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t8m6h"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(40, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ch05c"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(80, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjmkh"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(120, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_odlr7"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(160, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_choyc"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(200, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_86kpj"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(240, 0, 40, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxcre"]
+atlas = ExtResource("3_hygq6")
+region = Rect2(280, 0, 40, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_nnn7p"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_yv5oq")
-}, {
-"duration": 1.0,
-"texture": ExtResource("1_yv5oq")
+"texture": SubResource("AtlasTexture_aj3a4")
 }],
 "loop": false,
 "name": &"death",
@@ -21,50 +62,66 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_yv5oq")
-}, {
-"duration": 1.0,
-"texture": ExtResource("1_yv5oq")
+"texture": SubResource("AtlasTexture_jl4rj")
 }],
-"loop": false,
+"loop": true,
 "name": &"dmg",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_yv5oq")
-}, {
-"duration": 1.0,
-"texture": ExtResource("1_yv5oq")
+"texture": SubResource("AtlasTexture_ior5g")
 }],
 "loop": false,
 "name": &"idle",
-"speed": 5.0
+"speed": 10.0
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": ExtResource("1_yv5oq")
+"texture": SubResource("AtlasTexture_bp4ui")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t8m6h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ch05c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kjmkh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_odlr7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_choyc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_86kpj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxcre")
 }],
 "loop": true,
 "name": &"walk",
-"speed": 5.0
+"speed": 10.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_a2qlg"]
 radius = 24.0
-height = 48.0
+height = 80.0
 
 [node name="Enemy" type="CharacterBody2D"]
+z_index = 15
 collision_layer = 2
-collision_mask = 7
+collision_mask = 15
 script = ExtResource("1_2mguw")
 speed = 100.0
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-modulate = Color(0.784314, 0.12549, 0.0470588, 1)
-scale = Vector2(0.375, 0.375)
+texture_filter = 1
+scale = Vector2(2.5, 2.5)
 sprite_frames = SubResource("SpriteFrames_nnn7p")
-animation = &"idle"
+animation = &"death"
 autoplay = "idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -90,5 +147,18 @@ wait_time = 2.0
 
 [node name="Death" type="AudioStreamPlayer2D" parent="Audios"]
 
+[node name="HitTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
+[node name="ChangeLocation" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 0.1
+
 [connection signal="animation_finished" from="AnimatedSprite2D" to="AnimationsManager" method="_on_animated_sprite_2d_animation_finished"]
 [connection signal="timeout" from="WeaponManager/WaitTime" to="WeaponManager" method="_on_wait_time_timeout"]
+[connection signal="timeout" from="HitTimer" to="AnimationsManager" method="_on_hit_timer_timeout"]
+[connection signal="timeout" from="ChangeLocation" to="." method="_on_change_location_timeout"]

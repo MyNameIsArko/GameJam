@@ -1,0 +1,95 @@
+[gd_scene load_steps=13 format=3 uid="uid://cvx03sc0dg05g"]
+
+[ext_resource type="Script" path="res://bullet/player_fire_bullet.gd" id="1_2qya6"]
+[ext_resource type="Texture2D" uid="uid://bj8gdo5cuybmg" path="res://bullet/bullet_fire_player.png" id="2_6lnnq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8nvyr"]
+atlas = ExtResource("2_6lnnq")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4iyg"]
+atlas = ExtResource("2_6lnnq")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yelyb"]
+atlas = ExtResource("2_6lnnq")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y2s8l"]
+atlas = ExtResource("2_6lnnq")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ylqes"]
+atlas = ExtResource("2_6lnnq")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f6083"]
+atlas = ExtResource("2_6lnnq")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p1ma1"]
+atlas = ExtResource("2_6lnnq")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q1p5m"]
+atlas = ExtResource("2_6lnnq")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w6lqu"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8nvyr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4iyg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yelyb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y2s8l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ylqes")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f6083")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p1ma1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_q1p5m")
+}],
+"loop": true,
+"name": &"default",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kf351"]
+size = Vector2(37.3333, 37.3333)
+
+[node name="FireBullet" type="Area2D"]
+z_index = 5
+scale = Vector2(1.5, 1.5)
+collision_layer = 4
+collision_mask = 14
+script = ExtResource("1_2qya6")
+move_speed = 500.0
+damage = 2.0
+metadata/_edit_lock_ = true
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -8)
+scale = Vector2(3, 3)
+sprite_frames = SubResource("SpriteFrames_w6lqu")
+autoplay = "default"
+frame_progress = 0.798594
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2.66667, 18.6667)
+shape = SubResource("RectangleShape2D_kf351")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

@@ -8,7 +8,6 @@ var can_shoot: bool = true
 var bullet_direction: Vector2 = Vector2.ZERO
 
 func _process(delta):
-	
 	if Input.is_action_just_pressed("Attack Left"):
 		bullet_direction = Vector2.LEFT
 	elif Input.is_action_just_pressed("Attack Right"):
@@ -22,10 +21,11 @@ func _process(delta):
 	
 	var is_shooting: bool = Input.is_action_pressed("Attack Down") or Input.is_action_pressed("Attack Up") or Input.is_action_pressed("Attack Left") or Input.is_action_pressed("Attack Right")
 	
-	if is_shooting and can_shoot:
+	if is_shooting and can_shoot and not player.is_dead and not player.took_damage:
 		var instance = bullet.instantiate()
 		instance.position = get_parent().position
 		instance.direction = player.bullet_direction
+		instance.damage += player.damage_amplifier
 		get_tree().get_root().add_child(instance)
 		$"../Audios/Shoot".play()
 		can_shoot = false

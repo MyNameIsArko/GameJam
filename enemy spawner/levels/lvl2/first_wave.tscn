@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7igeevvccg4u"]
+
+[ext_resource type="Script" path="res://enemy spawner/wave_manager.gd" id="1_o3m0d"]
+[ext_resource type="PackedScene" uid="uid://csitfdtx80ojw" path="res://enemy/enemy.tscn" id="2_jk378"]
+
+[node name="WaveManager" type="Node2D"]
+position = Vector2(-20, 0)
+script = ExtResource("1_o3m0d")
+
+[node name="Enemy" parent="." instance=ExtResource("2_jk378")]
+z_index = 1
+position = Vector2(-212, -632)
+
+[node name="Enemy2" parent="." instance=ExtResource("2_jk378")]
+z_index = 1
+position = Vector2(68, -656)
+
+[node name="Enemy3" parent="." instance=ExtResource("2_jk378")]
+z_index = 1
+position = Vector2(244, -608)

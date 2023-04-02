@@ -16,7 +16,9 @@ func _process(delta):
 	if can_shoot and not enemy.took_damage and not enemy.is_dead and not enemy.is_preparing:
 		var instance = bullet.instantiate()
 		instance.position = get_parent().position
-		instance.direction = get_parent().direction
+		var direction = enemy.player.position - enemy.position
+		direction = direction.normalized()
+		instance.direction = direction
 		get_tree().get_root().add_child(instance)
 		$"../Audios/Shoot".play()
 		can_shoot = false

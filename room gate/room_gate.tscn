@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://room gate/room_gate.gd" id="1_8r0fe"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_osj8k"]
-size = Vector2(20, 128)
+size = Vector2(64, 16)
 
 [node name="RoomGate" type="Area2D"]
 position = Vector2(1152, 320)
